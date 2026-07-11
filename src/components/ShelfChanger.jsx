@@ -1,11 +1,12 @@
 const ShelfChanger = ({ book, onShelfChange }) => {
   const handleShelfChange = (event) => {
     const newShelfId = event.target.value === 'null' ? null : parseInt(event.target.value, 10);
-    onShelfChange(book.id, newShelfId);
-  }
+    onShelfChange(book, newShelfId);
+  };
+
   return (
     <div className="book-shelf-changer">
-      <select key={book.id} value={book.shelfId ?? 'null'} onChange={handleShelfChange}>
+      <select key={book.id} value={book.shelfId ?? "null"} onChange={handleShelfChange}>
         <option value="none" disabled>
           Move to...
         </option>
@@ -15,7 +16,7 @@ const ShelfChanger = ({ book, onShelfChange }) => {
         <option value="null">None</option>
       </select>
     </div>
-  )
-}
+  );
+};
 
 export default ShelfChanger;

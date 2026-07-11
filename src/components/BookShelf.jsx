@@ -1,6 +1,6 @@
 import Book from './Book';
 
-const BookShelf = ({ title, books, onShelfChange }) => {
+const BookShelf = ({ title, books, onShelfChange, isSearch }) => {
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{title}</h2>
@@ -14,7 +14,7 @@ const BookShelf = ({ title, books, onShelfChange }) => {
         }
         {books.length === 0 && (
           <div>
-            No Books Selected.
+            {isSearch ? "No books found." : "No books selected."}
           </div>
         )}
 
