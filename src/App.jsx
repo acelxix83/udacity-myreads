@@ -20,8 +20,12 @@ const bookShelves = [
 ];
 
 function App() {
-  const [showSearchPage, setShowSearchpage] = useState(false);  
-  const [books, setBooks] = useState([]);
+  const getBooksFromLocalStorage = () => {
+    const savedBooks = localStorage.getItem('books');
+    return savedBooks ? JSON.parse(savedBooks) : [];
+  }
+
+  const [books, setBooks] = useState(getBooksFromLocalStorage);  
 
   const onShelfChange = (book, newShelfId) => {
     setBooks((prevBooks) => {      
@@ -36,6 +40,7 @@ function App() {
           existingBook.shelfId = newShelfId;
         }
       }
+      localStorage.setItem('books', JSON.stringify(prevBooks));
       return [...prevBooks];
     });
   };
