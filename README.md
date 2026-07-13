@@ -1,16 +1,33 @@
-# React + Vite
+# MyReads Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is my submission for the Udacity React Fundamentals course project. The project is a simple book tracking application that allows users to categorize books into different shelves and search for new books to add to their collection.
 
-Currently, two official plugins are available:
+The project was bootstrapped with [Vite](https://vitejs.dev/) and uses [React](https://reactjs.org/) for the frontend. The application is designed to be responsive and user-friendly, providing a seamless experience for managing a personal library.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+# Setup Instructions
 
-## React Compiler
+To get started with the project, follow these steps:
+   1. Clone the repository to your local machine:
+   ```bash
+   git clone <repository-url>
+   ```
+   2. Navigate to the project directory:
+   ```bash
+   cd myreads-project
+   ```
+   3. Install the dependencies:
+   ```bash
+   npm install
+   ```
+   4. Start the server:
+   ```bash
+   npm start
+   ```
+   5. Open your browser and go to `http://localhost:3000` to view the application.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Troubleshooting
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+If you encounter any issues while setting up or running the project, please check the following:
+- Ensure that you have Node.js and npm installed on your machine. You can download them from [Node.js official website](https://nodejs.org/).
+- Make sure you are in the correct project directory when running the commands.
+- If you still face issues, try deleting the `node_modules` folder and the `package-lock.json` file, then run `npm install` again.
