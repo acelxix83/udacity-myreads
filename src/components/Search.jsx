@@ -20,7 +20,7 @@ const Search = ({ books, onShelfChange, openModal, onRatingUpdate }) => {
           } else {
             setSearchResults([]);
           }
-        } catch (error) {          
+        } catch (error) {
           if (error.name !== 'AbortError') {
             console.error('Error searching for books:', error);
           }
@@ -30,7 +30,7 @@ const Search = ({ books, onShelfChange, openModal, onRatingUpdate }) => {
 
       searchForBooks();
 
-      return () => controller.abort({ name: 'AbortError', message: 'Search changed, aborting previous request.'});
+      return () => controller.abort({ name: 'AbortError', message: 'Search changed, aborting previous request.' });
     }
   }, [queryString]);
 
