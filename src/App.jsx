@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import BookShelves from './components/BookShelves';
 import Search from './components/Search';
+import BookDetails from './components/BookDetails';
+import Modal from './components/Modal';
 
 const bookShelves = [
   {
@@ -25,10 +27,21 @@ function App() {
     return savedBooks ? JSON.parse(savedBooks) : [];
   }
 
-  const [books, setBooks] = useState(getBooksFromLocalStorage);  
+  const [books, setBooks] = useState(getBooksFromLocalStorage);
+  const [selectedBookId, setSelectedBookId] = useState(null);
+
+  const openModal = (bookId) => {
+    console.log('Opening modal for book ID:', bookId);
+    setSelectedBookId(bookId);
+  }
+
+  const closeModal = () => {
+    console.log('Closing modal');
+    setSelectedBookId(null);
+  };
 
   const onShelfChange = (book, newShelfId) => {
-    setBooks((prevBooks) => {      
+    setBooks((prevBooks) => {
       if (newShelfId === null) {
         prevBooks = prevBooks.filter((x) => x.id !== book.id);
       } else {
@@ -47,13 +60,18 @@ function App() {
 
   return (
     <div className="app">
+      {selectedBookId &&
+        <Modal isOpen={!!selectedBookId} onClose={closeModal}>
+          <BookDetails bookId={selectedBookId} onClose={closeModal} onShelfChange={onShelfChange} />
+        </Modal>
+      }
       <Routes>
-        <Route exact path="/" element={ 
-          <BookShelves bookShelves={bookShelves} books={books} onShelfChange={onShelfChange} />
-        }/>
+        <Route exact path="/" element={
+          <BookShelves bookShelves={bookShelves} books={books} onShelfChange={onShelfChange} openModal={openModal} />
+        } />
         <Route exact path="/search" element={
-          <Search books={books} onShelfChange={onShelfChange} />
-        }/>
+          <Search books={books} onShelfChange={onShelfChange} openModal={openModal} />
+        } />
       </Routes>
     </div>
   );

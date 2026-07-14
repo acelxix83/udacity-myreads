@@ -1,6 +1,14 @@
 import ShelfChanger from './ShelfChanger';
+import { useNavigate } from 'react-router-dom';
 
-const Book = ({ book, onShelfChange }) => { 
+const Book = ({ book, onShelfChange, openModal }) => { 
+  const navigate = useNavigate();
+
+  const viewDetails = (e) => {
+    // e.preventDefault();
+    openModal(book.id);
+    console.log('Navigating to details for book ID:', book.id);
+  };
   return (
     <li>
       <div className="book">
@@ -12,6 +20,8 @@ const Book = ({ book, onShelfChange }) => {
               height: 193,
               backgroundImage: `url(${book.imageLinks?.thumbnail})`,
             }}
+            onClick={viewDetails}
+            title="Click to view details"
           ></div>
           <ShelfChanger key={book.id} book={book} onShelfChange={onShelfChange} />
         </div>

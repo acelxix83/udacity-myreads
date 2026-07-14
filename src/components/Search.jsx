@@ -3,7 +3,7 @@ import { useState } from 'react';
 import * as BooksAPI from '../BooksAPI';
 import BookShelf from './BookShelf';
 
-const Search = ({ books, onShelfChange }) => {
+const Search = ({ books, onShelfChange, openModal }) => {
   const [queryString, setQueryString] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -48,7 +48,7 @@ const Search = ({ books, onShelfChange }) => {
         </div>
       </div>
       <div className="search-books-results">
-        <BookShelf title="Search Results" books={searchResults} onShelfChange={onShelfChange} isSearch={true} />
+        <BookShelf title="Search Results" books={searchResults} onShelfChange={onShelfChange} isSearch={true} openModal={openModal} />
       </div>
     </div>
   );

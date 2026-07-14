@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import BookShelf from './BookShelf';
 
-const BookShelves = ({ bookShelves, books, onShelfChange }) => {
+const BookShelves = ({ bookShelves, books, onShelfChange, openModal }) => {
   const getBooksByShelf = (shelfId) => {
     return books.filter((book) => book.shelfId === shelfId);
   };
@@ -14,7 +14,7 @@ const BookShelves = ({ bookShelves, books, onShelfChange }) => {
       <div className="list-books-content">
         <div>
           {bookShelves.map((bookShelf) => (
-            <BookShelf key={bookShelf.id} title={bookShelf.title} books={getBooksByShelf(bookShelf.id)} onShelfChange={onShelfChange} isSearch={false} />
+            <BookShelf key={bookShelf.id} title={bookShelf.title} books={getBooksByShelf(bookShelf.id)} onShelfChange={onShelfChange} isSearch={false} openModal={openModal} />
           ))}
         </div>
       </div>
