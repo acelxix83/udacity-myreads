@@ -28,16 +28,14 @@ function App() {
   }
 
   const [books, setBooks] = useState(getBooksFromLocalStorage);
-  const [selectedBookId, setSelectedBookId] = useState(null);
+  const [selectedBook, setSelectedBook] = useState(null);
 
-  const openModal = (bookId) => {
-    console.log('Opening modal for book ID:', bookId);
-    setSelectedBookId(bookId);
+  const openModal = (book) => {
+    setSelectedBook(book);
   }
 
   const closeModal = () => {
-    console.log('Closing modal');
-    setSelectedBookId(null);
+    setSelectedBook(null);
   };
 
   const onShelfChange = (book, newShelfId) => {
@@ -58,19 +56,35 @@ function App() {
     });
   };
 
+  const onRatingUpdate = (book, newRating) => {
+    setBooks((prevBooks) => {
+      const existingBook = prevBooks.find((x) => x.id === book.id);
+      if (!existingBook) {
+        book.userRating = newRating;
+        prevBooks.push(book);
+      }
+      else {
+        existingBook.userRating = newRating;
+        existingBook.shelfId = book.shelfId || 3; // Default to "Read" shelf if not already assigned
+      }
+      localStorage.setItem('books', JSON.stringify(prevBooks));
+      return [...prevBooks];
+    });
+  };
+
   return (
     <div className="app">
-      {selectedBookId &&
-        <Modal isOpen={!!selectedBookId} onClose={closeModal}>
-          <BookDetails bookId={selectedBookId} onClose={closeModal} onShelfChange={onShelfChange} />
+      {selectedBook &&
+        <Modal isOpen={!!selectedBook} onClose={closeModal}>
+          <BookDetails book={selectedBook} onClose={closeModal} onShelfChange={onShelfChange} onRatingUpdate={onRatingUpdate} />
         </Modal>
       }
       <Routes>
         <Route exact path="/" element={
-          <BookShelves bookShelves={bookShelves} books={books} onShelfChange={onShelfChange} openModal={openModal} />
+          <BookShelves bookShelves={bookShelves} books={books} onShelfChange={onShelfChange} openModal={openModal} onRatingUpdate={onRatingUpdate} />
         } />
         <Route exact path="/search" element={
-          <Search books={books} onShelfChange={onShelfChange} openModal={openModal} />
+          <Search books={books} onShelfChange={onShelfChange} openModal={openModal} onRatingUpdate={onRatingUpdate} />
         } />
       </Routes>
     </div>

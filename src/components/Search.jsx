@@ -3,7 +3,7 @@ import { useState } from 'react';
 import * as BooksAPI from '../BooksAPI';
 import BookShelf from './BookShelf';
 
-const Search = ({ books, onShelfChange, openModal }) => {
+const Search = ({ books, onShelfChange, openModal, onRatingUpdate }) => {
   const [queryString, setQueryString] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -22,11 +22,13 @@ const Search = ({ books, onShelfChange, openModal }) => {
 
   const mapResultsToBooks = (results) => {
     return results.map((result, index) => {
+      const existingBook = books.find((book) => book.id === result.id);
       return {
         id: result.id,
         title: result.title,
         authors: result.authors,
-        shelfId: books.find((book) => book.id === result.id)?.shelfId || null,
+        shelfId: existingBook?.shelfId || null,
+        userRating: existingBook?.userRating || null,
         imageLinks: {
           thumbnail: result.imageLinks?.thumbnail || null
         }
@@ -48,7 +50,7 @@ const Search = ({ books, onShelfChange, openModal }) => {
         </div>
       </div>
       <div className="search-books-results">
-        <BookShelf title="Search Results" books={searchResults} onShelfChange={onShelfChange} isSearch={true} openModal={openModal} />
+        <BookShelf title="Search Results" books={searchResults} onShelfChange={onShelfChange} isSearch={true} openModal={openModal} onRatingUpdate={onRatingUpdate} />
       </div>
     </div>
   );

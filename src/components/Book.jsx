@@ -1,12 +1,12 @@
 import ShelfChanger from './ShelfChanger';
 import { useNavigate } from 'react-router-dom';
+import BookRating from './BookRating';
 
-const Book = ({ book, onShelfChange, openModal }) => { 
+const Book = ({ book, onShelfChange, openModal, onRatingUpdate }) => {
   const navigate = useNavigate();
 
-  const viewDetails = (e) => {    
-    openModal(book.id);
-    console.log('Navigating to details for book ID:', book.id);
+  const viewDetails = (e) => {
+    openModal(book);
   };
   return (
     <li>
@@ -15,7 +15,7 @@ const Book = ({ book, onShelfChange, openModal }) => {
           <div
             className="book-cover"
             style={{
-              width: 128,
+              width: 135,
               height: 193,
               backgroundImage: `url(${book.imageLinks?.thumbnail})`,
             }}
@@ -24,6 +24,7 @@ const Book = ({ book, onShelfChange, openModal }) => {
           ></div>
           <ShelfChanger key={book.id} book={book} onShelfChange={onShelfChange} />
         </div>
+        <BookRating key={book.id} book={book} onRatingUpdate={onRatingUpdate} />
         <div className="book-title">{book.title}</div>
         <div className="book-authors">{book.authors?.join(', ')}</div>
       </div>

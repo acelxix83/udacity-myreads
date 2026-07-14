@@ -155,7 +155,7 @@ body,
 
 .book-shelf-changer {
   position: absolute;
-  right: 0;
+  right: -7px;
   bottom: -10px;
   width: 40px;
   height: 40px;
@@ -272,5 +272,34 @@ body,
 }
 
 .book-description {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+/* rating */
+.rating-stars {
+  display: flex;
+  height: 25px;
+  margin-top: 12px;
+  margin-left: 5px;
+}
+
+.rating-star {
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding-right: 5px;
+}
+
+  .rating-star:last-child {
+    padding-right: 0;
+  }
+
+.zero-rating {
+  background-image: url("./icons/rating_star_A_00.svg");
+}
+
+.full-rating {
+  background-image: url("./icons/rating_star_A_10.svg");
 }

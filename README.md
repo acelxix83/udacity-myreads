@@ -30,6 +30,7 @@ To get started with the project, follow these steps:
 The MyReads project allows users to manage their book collection by categorizing books into different shelves. The main features include:
 - **Categorize Books**: Users can move books between different shelves such as "Currently Reading", "Want to Read", and "Read".
 - **Search for Books**: Users can search for new books to add to their collection using the search functionality.
+- **Book Rating**: Users can rate books, providing a personal touch to their library.  If not in a shelf already, it is automatically added to the Read shelf.
 - **Book Details**: Users can view detailed information about each book, including the title, author(s), published date, and description.
 
 # Troubleshooting
