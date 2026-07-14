@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as BooksAPI from '../BooksAPI';
 import BookShelf from './BookShelf';
 
@@ -7,16 +7,40 @@ const Search = ({ books, onShelfChange, openModal, onRatingUpdate }) => {
   const [queryString, setQueryString] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
-  const search = ((queryString) => {
-    setQueryString(queryString);
+  useEffect(() => {
     if (queryString.length > 0) {
+      const controller = new AbortController();
+
       const searchForBooks = async () => {
-        const results = await BooksAPI.search(queryString);
-        const mappedResults = mapResultsToBooks(results);
-        setSearchResults(mappedResults);
+        try {
+          const results = await BooksAPI.search(queryString, 20, controller.signal);
+          if (results && Array.isArray(results)) {
+            const mappedResults = mapResultsToBooks(results);
+            setSearchResults(mappedResults);
+          } else {
+            setSearchResults([]);
+          }
+        } catch (error) {          
+          if (error.name !== 'AbortError') {
+            console.error('Error searching for books:', error);
+          }
+          // Silently ignore AbortError - this is expected when search terms change
+        }
       };
 
       searchForBooks();
+
+      return () => controller.abort({ name: 'AbortError', message: 'Search changed, aborting previous request.'});
+    }
+  }, [queryString]);
+
+  const search = ((queryString) => {
+    const sanitizedQueryString = queryString.replace(/[^A-Za-z0-9 ]/g, '');
+    if (sanitizedQueryString.length > 0) {
+      setQueryString(sanitizedQueryString);
+    } else {
+      setQueryString('');
+      setSearchResults([]);
     }
   });
 

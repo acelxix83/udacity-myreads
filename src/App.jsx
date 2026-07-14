@@ -61,6 +61,7 @@ function App() {
       const existingBook = prevBooks.find((x) => x.id === book.id);
       if (!existingBook) {
         book.userRating = newRating;
+        book.shelfId = 3; // Default to "Read" shelf
         prevBooks.push(book);
       }
       else {

@@ -29,14 +29,16 @@ export const update = (book, shelf) =>
     body: JSON.stringify({ shelf }),
   }).then((res) => res.json());
 
-export const search = (query, maxResults) =>
-  fetch(`${api}/search`, {
+export const search = async (query, maxResults, signal) => {
+  const res = await fetch(`${api}/search`, {
     method: "POST",
     headers: {
       ...headers,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ query, maxResults }),
-  })
-    .then((res) => res.json())
-    .then((data) => data.books);
+    signal: signal
+  });
+  const data = await res.json();
+  return data.books;
+};
