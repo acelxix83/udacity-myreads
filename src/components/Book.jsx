@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const Book = ({ book, onShelfChange, openModal }) => { 
   const navigate = useNavigate();
 
-  const viewDetails = (e) => {
-    // e.preventDefault();
+  const viewDetails = (e) => {    
     openModal(book.id);
     console.log('Navigating to details for book ID:', book.id);
   };
