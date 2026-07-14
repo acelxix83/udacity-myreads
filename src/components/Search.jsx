@@ -74,7 +74,7 @@ const Search = ({ books, onShelfChange, openModal, onRatingUpdate }) => {
   const mapResultsToBooks = (results) => {
     return results.map((result, index) => {
       const existingBook = books.find((book) => book.id === result.id);
-      return {
+      return existingBook || {
         id: result.id,
         title: result.title,
         authors: result.authors,

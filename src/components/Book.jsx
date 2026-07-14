@@ -21,7 +21,7 @@ const Book = ({ book, onShelfChange, openModal, onRatingUpdate }) => {
     <li>
       <div className="book">
         <div className="book-top">
-          <div
+          <button
             className="book-cover"
             style={{
               width: 135,
@@ -30,7 +30,7 @@ const Book = ({ book, onShelfChange, openModal, onRatingUpdate }) => {
             }}
             onClick={viewDetails}
             title="Click to view details"
-          ></div>
+          ></button>
           <ShelfChanger key={book.id} book={book} onShelfChange={onShelfChange} />
         </div>
         <BookRating key={book.id} book={book} onRatingUpdate={onRatingUpdate} />
