@@ -23,7 +23,7 @@ To get started with the project, follow these steps:
    ```bash
    npm start
    ```
-   5. Open your browser and go to `http://localhost:3000` to view the application.
+   5. Open your browser and go to `http://localhost:3001` to view the application.
 
 # Features
 
