@@ -1,6 +1,17 @@
-import Book from './Book';
+import Book from './book';
 
-const BookShelf = ({ title, books, onShelfChange, isSearch, openModal, onRatingUpdate }) => {
+/**
+ * Bookshelf component for displaying a collection of books on a specific shelf.
+ * @param {Object} props - The component props.
+ * @param {string} props.title - The title of the bookshelf.
+ * @param {Object[]} props.books - Array of book objects to be displayed on the shelf.
+ * @param {Function} props.onShelfChange - Callback function to handle shelf changes for books.
+ * @param {boolean} props.isSearch - Flag indicating if the bookshelf is being used in a search context.
+ * @param {Function} props.openModal - Callback function to open a modal for viewing book details.
+ * @param {Function} props.onRatingUpdate - Callback function to handle rating updates for books.
+ * @returns {JSX.Element} The rendered Bookshelf component.
+ */
+const Bookshelf = ({ title, books, onShelfChange, isSearch, openModal, onRatingUpdate }) => {
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{title}</h2>
@@ -23,4 +34,4 @@ const BookShelf = ({ title, books, onShelfChange, isSearch, openModal, onRatingU
   );
 };
 
-export default BookShelf;
+export default Bookshelf;

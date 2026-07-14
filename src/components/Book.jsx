@@ -1,7 +1,16 @@
 import ShelfChanger from './ShelfChanger';
 import { useNavigate } from 'react-router-dom';
-import BookRating from './BookRating';
+import BookRating from './bookrating';
 
+/**
+ * Book component for displaying an individual book, including title, authors, cover image, shelf changer, and rating.
+ * @param {Object} props - The component props.
+ * @param {Object} props.book - The book object containing details such as title, authors, imageLinks, and shelfId.
+ * @param {Function} props.onShelfChange - Callback function to handle shelf changes for the book.
+ * @param {Function} props.openModal - Callback function to open a modal for viewing book details.
+ * @param {Function} props.onRatingUpdate - Callback function to handle rating updates for the book.
+ * @returns {JSX.Element} The rendered Book component.
+ */
 const Book = ({ book, onShelfChange, openModal, onRatingUpdate }) => {
   const navigate = useNavigate();
 

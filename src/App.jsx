@@ -1,12 +1,12 @@
 import './App.css';
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import BookShelves from './components/BookShelves';
-import Search from './components/Search';
-import BookDetails from './components/BookDetails';
-import Modal from './components/Modal';
+import Bookshelves from './components/bookshelves';
+import Search from './components/search';
+import BookDetails from './components/bookdetails';
+import Modal from './components/modal';
 
-const bookShelves = [
+const bookshelves = [
   {
     id: 1,
     title: 'Currently Reading'
@@ -21,6 +21,10 @@ const bookShelves = [
   }
 ];
 
+/**
+ * Main application component for managing book shelves and book details. 
+ * @returns {JSX.Element} The rendered application component.
+ */
 function App() {
   const getBooksFromLocalStorage = () => {
     const savedBooks = localStorage.getItem('books');
@@ -38,6 +42,11 @@ function App() {
     setSelectedBook(null);
   };
 
+  /**
+   * Handles the change of a book's shelf.  If the book is not already in the collection, it will be added to the specified shelf.
+   * @param {any} book - The book object whose shelf is being changed.  
+   * @param {any} newShelfId - The new shelf ID to which the book is being moved. If null, the book will be removed from the collection.
+   */ 
   const onShelfChange = (book, newShelfId) => {
     setBooks((prevBooks) => {
       if (newShelfId === null) {
@@ -56,6 +65,11 @@ function App() {
     });
   };
 
+  /**
+   * Handles the update of a book's rating.  If the bookshelf is not already in the collection, it will be added to the "Read" shelf by default.
+   * @param {any} book - The book object whose rating is being updated.
+   * @param {any} newRating - The new rating value for the book.
+   */
   const onRatingUpdate = (book, newRating) => {
     setBooks((prevBooks) => {
       const existingBook = prevBooks.find((x) => x.id === book.id);
@@ -82,7 +96,7 @@ function App() {
       }
       <Routes>
         <Route exact path="/" element={
-          <BookShelves bookShelves={bookShelves} books={books} onShelfChange={onShelfChange} openModal={openModal} onRatingUpdate={onRatingUpdate} />
+          <Bookshelves bookshelves={bookshelves} books={books} onShelfChange={onShelfChange} openModal={openModal} onRatingUpdate={onRatingUpdate} />
         } />
         <Route exact path="/search" element={
           <Search books={books} onShelfChange={onShelfChange} openModal={openModal} onRatingUpdate={onRatingUpdate} />
