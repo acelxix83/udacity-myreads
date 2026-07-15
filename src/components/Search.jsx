@@ -24,30 +24,34 @@ const Search = ({ books, onShelfChange, openModal }) => {
    * AbortError is silently ignored as it is expected when the search terms change.
    */
   useEffect(() => {
-    if (queryString.length > 0) {
-      const controller = new AbortController();
+    const debounceTimeout = setTimeout(() => {
+      if (queryString.length > 0) {
+        const controller = new AbortController();
 
-      const searchForBooks = async () => {
-        try {
-          const results = await BooksAPI.search(queryString, 20, controller.signal);
-          if (results && Array.isArray(results)) {
-            const mappedResults = mapResultsToBooks(results);
-            setSearchResults(mappedResults);
-          } else {
-            setSearchResults([]);
+        const searchForBooks = async () => {
+          try {
+            const results = await BooksAPI.search(queryString, 20, controller.signal);
+            if (results && Array.isArray(results)) {
+              const mappedResults = mapResultsToBooks(results);
+              setSearchResults(mappedResults);
+            } else {
+              setSearchResults([]);
+            }
+          } catch (error) {
+            if (error.name !== 'AbortError') {
+              console.error('Error searching for books:', error);
+            }
+            // Silently ignore AbortError - this is expected when search terms change
           }
-        } catch (error) {
-          if (error.name !== 'AbortError') {
-            console.error('Error searching for books:', error);
-          }
-          // Silently ignore AbortError - this is expected when search terms change
-        }
-      };
+        };
 
-      searchForBooks();
+        searchForBooks();
 
-      return () => controller.abort({ name: 'AbortError', message: 'Search changed, aborting previous request.' });
-    }
+        return () => controller.abort({ name: 'AbortError', message: 'Search changed, aborting previous request.' });
+      }
+    }, 300); // Debounce time of 300ms
+
+    return () => clearTimeout(debounceTimeout);
   }, [queryString]);
 
   /** 
