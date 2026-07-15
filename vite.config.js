@@ -9,6 +9,7 @@ export default defineConfig({
   server: {
     watch: {
       ignored: ['**/.vs/**', '**/node_modules/**'],
+      usePolling: true,
     },
   },
-})
+});

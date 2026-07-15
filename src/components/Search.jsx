@@ -10,10 +10,9 @@ import Bookshelf from './bookshelf';
  * @param {Function} onShelfChange - Function to handle shelf changes for books.
  * @param {Function} props.onShelfChange - Function to handle shelf changes for books.
  * @param {Function} props.openModal - Function to open a modal for book details.
- * @param {Function} props.onRatingUpdate - Function to handle rating updates for books.
  * @returns {JSX.Element} The rendered Search component.
 */
-const Search = ({ books, onShelfChange, openModal, onRatingUpdate }) => {
+const Search = ({ books, onShelfChange, openModal }) => {
   const [queryString, setQueryString] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -67,23 +66,14 @@ const Search = ({ books, onShelfChange, openModal, onRatingUpdate }) => {
   });
 
   /**
-   * Maps the search results from the API to the book objects used in the application, preserving existing shelf and rating information if available.
+   * Returns existing book with shelf info, otherwise returns the search result.
    * @param {any} results - The array of book results returned from the search API.
-   * @returns {Object[]} An array of book objects with properties id, title, authors, shelfId, userRating, and imageLinks.
+   * @returns {Object[]} An array of books.
    */
   const mapResultsToBooks = (results) => {
     return results.map((result, index) => {
       const existingBook = books.find((book) => book.id === result.id);
-      return existingBook || {
-        id: result.id,
-        title: result.title,
-        authors: result.authors,
-        shelfId: existingBook?.shelfId || null,
-        userRating: existingBook?.userRating || null,
-        imageLinks: {
-          thumbnail: result.imageLinks?.thumbnail || null
-        }
-      };
+      return existingBook || result;
     });
   };
 
@@ -101,7 +91,7 @@ const Search = ({ books, onShelfChange, openModal, onRatingUpdate }) => {
         </div>
       </div>
       <div className="search-books-results">
-        <Bookshelf title="Search Results" books={searchResults} onShelfChange={onShelfChange} isSearch={true} openModal={openModal} onRatingUpdate={onRatingUpdate} />
+        <Bookshelf title="Search Results" books={searchResults} onShelfChange={onShelfChange} isSearch={true} openModal={openModal} />
       </div>
     </div>
   );

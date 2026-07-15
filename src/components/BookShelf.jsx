@@ -8,10 +8,9 @@ import Book from './book';
  * @param {Function} props.onShelfChange - Callback function to handle shelf changes for books.
  * @param {boolean} props.isSearch - Flag indicating if the bookshelf is being used in a search context.
  * @param {Function} props.openModal - Callback function to open a modal for viewing book details.
- * @param {Function} props.onRatingUpdate - Callback function to handle rating updates for books.
  * @returns {JSX.Element} The rendered Bookshelf component.
  */
-const Bookshelf = ({ title, books, onShelfChange, isSearch, openModal, onRatingUpdate }) => {
+const Bookshelf = ({ title, books, onShelfChange, isSearch, openModal }) => {
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{title}</h2>
@@ -19,7 +18,7 @@ const Bookshelf = ({ title, books, onShelfChange, isSearch, openModal, onRatingU
         {books.length > 0 && (
           <ol className="books-grid">
             {books.map((book) => (
-              <Book key={book.id} book={book} onShelfChange={onShelfChange} openModal={openModal} onRatingUpdate={onRatingUpdate} />
+              <Book key={book.id} book={book} onShelfChange={onShelfChange} openModal={openModal} />
             ))}
           </ol>)
         }

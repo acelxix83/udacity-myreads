@@ -322,8 +322,7 @@ body,
 }
 
 
-.rating-star {
-  cursor: pointer;
+.rating-star {  
   height: 25px;
   width: 25px;
   background-repeat: no-repeat;
@@ -340,6 +339,11 @@ body,
 .zero-rating {
   background-image: url(./icons/rating_star_A_00.svg);
 }
+
+.half-rating {
+  background-image: url(./icons/rating_star_A_05.svg);
+}
+
 
 .full-rating {
   background-image: url(./icons/rating_star_A_10.svg);

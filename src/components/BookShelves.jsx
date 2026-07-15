@@ -7,12 +7,11 @@ import Bookshelf from './bookshelf';
  * @param {Object[]} books - Array of book objects.
  * @param {Function} onShelfChange - Callback for changing a book's shelf.
  * @param {Function} openModal - Callback for opening the book details modal.
- * @param {Function} onRatingUpdate - Callback for updating a book's rating.
  * @returns {JSX.Element} The rendered BookShelves component.
  */
-const BookShelves = ({ bookshelves, books, onShelfChange, openModal, onRatingUpdate }) => {
+const BookShelves = ({ bookshelves, books, onShelfChange, openModal }) => {
   const getBooksByShelf = (shelfId) => {
-    return books.filter((book) => book.shelfId === shelfId);
+    return books.filter((book) => book.shelf === shelfId);
   };
 
   return (
@@ -23,7 +22,7 @@ const BookShelves = ({ bookshelves, books, onShelfChange, openModal, onRatingUpd
       <div className="list-books-content">
         <div>
           {bookshelves.map((bookShelf) => (
-            <Bookshelf key={bookShelf.id} title={bookShelf.title} books={getBooksByShelf(bookShelf.id)} onShelfChange={onShelfChange} isSearch={false} openModal={openModal} onRatingUpdate={onRatingUpdate} />
+            <Bookshelf key={bookShelf.id} title={bookShelf.title} books={getBooksByShelf(bookShelf.id)} onShelfChange={onShelfChange} isSearch={false} openModal={openModal} />
           ))}
         </div>
       </div>

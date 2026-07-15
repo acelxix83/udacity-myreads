@@ -8,10 +8,9 @@ import BookRating from './bookrating';
  * @param {Object} props.book - The book object containing details such as title, authors, imageLinks, and shelfId.
  * @param {Function} props.onShelfChange - Callback function to handle shelf changes for the book.
  * @param {Function} props.openModal - Callback function to open a modal for viewing book details.
- * @param {Function} props.onRatingUpdate - Callback function to handle rating updates for the book.
  * @returns {JSX.Element} The rendered Book component.
  */
-const Book = ({ book, onShelfChange, openModal, onRatingUpdate }) => {
+const Book = ({ book, onShelfChange, openModal }) => {
   const navigate = useNavigate();
 
   const viewDetails = (e) => {
@@ -33,7 +32,7 @@ const Book = ({ book, onShelfChange, openModal, onRatingUpdate }) => {
           ></button>
           <ShelfChanger key={book.id} book={book} onShelfChange={onShelfChange} />
         </div>
-        <BookRating key={book.id} book={book} onRatingUpdate={onRatingUpdate} />
+        <BookRating key={book.id} book={book} />
         <div className="book-title">{book.title}</div>
         <div className="book-authors">{book.authors?.join(', ')}</div>
       </div>

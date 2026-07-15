@@ -7,24 +7,22 @@
  */
 const ShelfChanger = ({ book, onShelfChange }) => {
   /**
-   * Handle the change of the shelf for the book.  Defaults to null if the selected value is 'null',
-   *  otherwise parses the selected value as an integer.
+   * Triggers the onShelfChange callback with the selected shelf value when the shelf is changed.
    * @param {any} event - The change event triggered by selecting a new shelf.
    */
   const handleShelfChange = (event) => {
-    const newShelfId = event.target.value === 'null' ? null : parseInt(event.target.value, 10);
-    onShelfChange(book, newShelfId);
+    onShelfChange(book, event.target.value);
   };
 
   return (
     <div className="book-shelf-changer">
-      <select name={book.id} key={book.id} value={book.shelfId ?? "null"} onChange={handleShelfChange}>
+      <select name={book.id} key={book.id} value={book.shelf} onChange={handleShelfChange}>
         <option value="none" disabled>
           Move to...
         </option>
-        <option value="1">Currently Reading</option>
-        <option value="2">Want to Read</option>
-        <option value="3">Read</option>
+        <option value="currentlyReading">Currently Reading</option>
+        <option value="wantToRead">Want to Read</option>
+        <option value="read">Read</option>
         <option value="null">None</option>
       </select>
     </div>
