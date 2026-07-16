@@ -100,8 +100,10 @@ const Search = ({ books, onShelfChange, openModal }) => {
         const newShelf = existingBook ? existingBook.shelf : 'none';
         if (result.shelf !== newShelf) {
           hasChanges = true;
+          return { ...result, shelf: newShelf };
         }
-        return { ...result, shelf: newShelf };
+        // Return the same object reference if shelf didn't change
+        return result;
       });
 
       // Only return new array if something actually changed
