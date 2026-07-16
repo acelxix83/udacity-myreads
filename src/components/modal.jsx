@@ -1,3 +1,4 @@
+import { memo } from 'react';
 /**
  * A modal component that displays content in a popup overlay. This code is based on the example from https://dev.to/codewithmahadihasan/comprehensive-guide-to-handling-modals-in-react-46je
  * 
@@ -7,7 +8,7 @@
  * @param {React.ReactNode} props.children - The content to display inside the modal.
  * @returns {JSX.Element|null} The rendered modal component, or null if the modal is closed.
  */
-const Modal = ({ isOpen, onClose, children }) => {
+const Modal = memo(({ isOpen, onClose, children }) => {
   if (!isOpen) {
     return null; // Don't render the modal if it's not open
   }
@@ -24,6 +25,6 @@ const Modal = ({ isOpen, onClose, children }) => {
       </div>
     </div>
   );
-};
+});
 
 export default Modal;

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import * as BooksAPI from '../booksapi';
 import Bookshelf from './bookshelf';
 
@@ -55,15 +55,15 @@ const Search = ({ books, onShelfChange, openModal }) => {
    * string is empty, it clears the search results.
    * @param {string} queryString - The input query string to search for books.
    */
-  const search = ((queryString) => {
-    const sanitizedQueryString = queryString.replace(/[^A-Za-z0-9 ]/g, '');
+  const search = useCallback((inputString) => {    
+    const sanitizedQueryString = inputString.replace(/[^A-Za-z0-9 ]/g, '');
     if (sanitizedQueryString.length > 0) {
       setQueryString(sanitizedQueryString);
     } else {
       setQueryString('');
       setSearchResults([]);
     }
-  });
+  }, [queryString]);
 
   /**
    * Sets the search results state with the mapped book objects. 
@@ -71,7 +71,7 @@ const Search = ({ books, onShelfChange, openModal }) => {
    * @param {any} results - The array of book results returned from the search API.
    * @returns {Object[]} An array of books.
    */
-  const mapResultsToBooks = (results) => {
+  const mapResultsToBooks = useCallback((results) => {
     setSearchResults((prevResults) => {
       if (!results || results.error) {
         return [];
@@ -81,30 +81,33 @@ const Search = ({ books, onShelfChange, openModal }) => {
         return { ...result, shelf: existingBook ? existingBook.shelf : 'none' };
       });
     });
-  };
+  }, [books]);
 
   /**
    * Syncs the search results with the books collection when the books prop changes.
    * This ensures that shelf changes made in the BookDetails modal are reflected in the search results.
    */
   useEffect(() => {
-    mapResultsToBooks(searchResults);
-  }, [books]);
-
-  /**
-   * Handles the shelf change. It updates the shelf of the book in the search
-   * results and calls the onShelfChange callback to update the main collection. 
-   * @param {any} book
-   * @param {any} newShelfId
-   */
-  const handleShelfChange = (book, newShelfId) => {
-    onShelfChange(book, newShelfId);
     setSearchResults((prevResults) => {
-      return prevResults.map((result) => {
-        return { ...result, shelf: (result.id === book.id) ? newShelfId : result.shelf };
+      if (prevResults.length === 0) {
+        return prevResults;
+      }
+
+      // Check if any shelf values actually changed
+      let hasChanges = false;
+      const updatedResults = prevResults.map((result) => {
+        const existingBook = books.find((book) => book.id === result.id);
+        const newShelf = existingBook ? existingBook.shelf : 'none';
+        if (result.shelf !== newShelf) {
+          hasChanges = true;
+        }
+        return { ...result, shelf: newShelf };
       });
+
+      // Only return new array if something actually changed
+      return hasChanges ? updatedResults : prevResults;
     });
-  }
+  }, [books]);
 
   return (
     <div className="search-books">
@@ -120,7 +123,7 @@ const Search = ({ books, onShelfChange, openModal }) => {
         </div>
       </div>
       <div className="search-books-results">
-        <Bookshelf title="Search Results" books={searchResults} onShelfChange={handleShelfChange} isSearch={true} openModal={openModal} />
+        <Bookshelf title="Search Results" books={searchResults} onShelfChange={onShelfChange} isSearch={true} openModal={openModal} />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Bookshelves from './components/bookshelves';
 import Search from './components/search';
@@ -36,13 +36,13 @@ function App() {
   const [books, setBooks] = useState([]);
   const [selectedBookId, setSelectedBookId] = useState(null);
 
-  const openModal = (bookId) => {
+  const openModal = useCallback((bookId) => {
     setSelectedBookId(bookId);
-  }
+  }, []);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setSelectedBookId(null);
-  };
+  }, []);
 
   /**
    * Handles the change of a book's shelf.  If the book is not already in the collection,
@@ -50,7 +50,7 @@ function App() {
    * @param {any} book - The book object whose shelf is being changed.  
    * @param {any} newShelfId - The new shelf ID. If null, the book will be removed from the collection.
    */
-  const onShelfChange = (book, newShelfId) => {
+  const onShelfChange = useCallback((book, newShelfId) => {
     BooksAPI.update(book, newShelfId).then(() => {
       setBooks((prevBooks) => {
         const exists = prevBooks.some((x) => x.id === book.id);
@@ -61,7 +61,7 @@ function App() {
           : [...prevBooks, { ...book, shelf: newShelfId }]; // Add the new book to the collection with the specified shelf
       });
     });
-  };
+  }, []);
 
   return (
     <div className="app">

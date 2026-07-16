@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 /**
  * ShelfChanger component for changing the shelf of a book.
  * @param {Object} props - The component props.
@@ -5,7 +7,7 @@
  * @param {Function} props.onShelfChange - Callback function to handle shelf changes.
  * @returns {JSX.Element} The rendered ShelfChanger component.
  */
-const ShelfChanger = ({ book, onShelfChange }) => {
+const ShelfChanger = memo(({ book, onShelfChange }) => {
   /**
    * Triggers the onShelfChange callback with the selected shelf value when the shelf is changed.
    * @param {any} event - The change event triggered by selecting a new shelf.
@@ -27,6 +29,6 @@ const ShelfChanger = ({ book, onShelfChange }) => {
       </select>
     </div>
   );
-};
+});
 
 export default ShelfChanger;

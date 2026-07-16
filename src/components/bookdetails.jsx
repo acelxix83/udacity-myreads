@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import * as BooksAPI from "../BooksAPI";
-import ShelfChanger from "./ShelfChanger";
-import BookRating from "./BookRating";
+import * as BooksAPI from "../booksapi";
+import ShelfChanger from "./shelfchanger";
+import BookRating from "./bookrating";
 
 /**
  * Book details

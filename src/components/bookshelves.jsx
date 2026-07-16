@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import Bookshelf from './bookshelf';
 
@@ -9,7 +10,7 @@ import Bookshelf from './bookshelf';
  * @param {Function} openModal - Callback for opening the book details modal.
  * @returns {JSX.Element} The rendered BookShelves component.
  */
-const BookShelves = ({ bookshelves, books, onShelfChange, openModal }) => {
+const BookShelves = memo(({ bookshelves, books, onShelfChange, openModal }) => {
   const getBooksByShelf = (shelfId) => {
     return books.filter((book) => book.shelf === shelfId);
   };
@@ -31,6 +32,6 @@ const BookShelves = ({ bookshelves, books, onShelfChange, openModal }) => {
       </div>
     </div>
   );
-};
+});
 
 export default BookShelves;

@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 
 /**
  *  BookRating component displays the average rating of a book using star icons.
@@ -7,7 +7,7 @@ import { memo } from 'react';
  *  @returns {JSX.Element} The rendered book rating component.
  */
 const BookRating = memo(({ book }) => {
-  const getRatingClass = (star, averageRating) => {
+  const getRatingClass = useCallback((star, averageRating) => {
     let ratingClass = 'rating-star ';
 
     if (averageRating > 0) {
@@ -17,7 +17,7 @@ const BookRating = memo(({ book }) => {
     }
 
     return ratingClass;
-  };
+  }, []);
 
   return (
     <div className="rating-stars">

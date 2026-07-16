@@ -1,6 +1,6 @@
-import ShelfChanger from './ShelfChanger';
-import { useNavigate } from 'react-router-dom';
+import { memo, useCallback } from 'react';
 import BookRating from './bookrating';
+import ShelfChanger from './shelfchanger';
 
 /**
  * Book component for displaying an individual book, including title, authors, cover image, shelf changer, and rating.
@@ -10,12 +10,11 @@ import BookRating from './bookrating';
  * @param {Function} props.openModal - Callback function to open a modal for viewing book details.
  * @returns {JSX.Element} The rendered Book component.
  */
-const Book = ({ book, onShelfChange, openModal }) => {
-  const navigate = useNavigate();
-
-  const viewDetails = (e) => {
+const Book = memo(({ book, onShelfChange, openModal }) => {
+  const viewDetails = useCallback((e) => {
     openModal(book.id);
-  };
+  }, [book.id, openModal]);
+
   return (
     <li>
       <div className="book">
@@ -38,6 +37,6 @@ const Book = ({ book, onShelfChange, openModal }) => {
       </div>
     </li>
   );
-};
+});
 
 export default Book;

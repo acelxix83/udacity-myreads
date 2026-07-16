@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Book from './book';
 
 /**
@@ -10,7 +11,7 @@ import Book from './book';
  * @param {Function} props.openModal - Callback function to open a modal for viewing book details.
  * @returns {JSX.Element} The rendered Bookshelf component.
  */
-const Bookshelf = ({ title, books, onShelfChange, isSearch, openModal }) => {
+const Bookshelf = memo(({ title, books, onShelfChange, isSearch, openModal }) => {
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{title + ` (${books.length})`}</h2>
@@ -31,6 +32,6 @@ const Bookshelf = ({ title, books, onShelfChange, isSearch, openModal }) => {
       </div>
     </div>
   );
-};
+});
 
 export default Bookshelf;
