@@ -1,10 +1,12 @@
+import { memo } from 'react';
+
 /**
  *  BookRating component displays the average rating of a book using star icons.
  *  @param {Object} props - The component props.
  *  @param {Object} props.book - The book object whose rating is being displayed.
  *  @returns {JSX.Element} The rendered book rating component.
  */
-const BookRating = ({ book }) => {
+const BookRating = memo(({ book }) => {
   const getRatingClass = (star, averageRating) => {
     let ratingClass = 'rating-star ';
 
@@ -26,6 +28,6 @@ const BookRating = ({ book }) => {
       ))}
     </div>
   );
-}
+});
 
 export default BookRating;

@@ -14,7 +14,7 @@ const Book = ({ book, onShelfChange, openModal }) => {
   const navigate = useNavigate();
 
   const viewDetails = (e) => {
-    openModal(book);
+    openModal(book.id);
   };
   return (
     <li>

@@ -31,12 +31,7 @@ const Search = ({ books, onShelfChange, openModal }) => {
         const searchForBooks = async () => {
           try {
             const results = await BooksAPI.search(queryString, 20, controller.signal);
-            if (results && Array.isArray(results)) {
-              const mappedResults = mapResultsToBooks(results);
-              setSearchResults(mappedResults);
-            } else {
-              setSearchResults([]);
-            }
+            mapResultsToBooks(results);
           } catch (error) {
             if (error.name !== 'AbortError') {
               console.error('Error searching for books:', error);
@@ -56,7 +51,8 @@ const Search = ({ books, onShelfChange, openModal }) => {
 
   /** 
    * Sanitizes the input query string and updates the state for search results.
-   * Input is limited to alphanumeric characters and spaces. If the sanitized query string is empty, it clears the search results.
+   * Input is limited to alphanumeric characters and spaces. If the sanitized query
+   * string is empty, it clears the search results.
    * @param {string} queryString - The input query string to search for books.
    */
   const search = ((queryString) => {
@@ -70,16 +66,45 @@ const Search = ({ books, onShelfChange, openModal }) => {
   });
 
   /**
-   * Returns existing book with shelf info, otherwise returns the search result.
+   * Sets the search results state with the mapped book objects. 
+   * If the results are empty or contain an error, it clears the search results.
    * @param {any} results - The array of book results returned from the search API.
    * @returns {Object[]} An array of books.
    */
   const mapResultsToBooks = (results) => {
-    return results.map((result, index) => {
-      const existingBook = books.find((book) => book.id === result.id);
-      return existingBook || result;
+    setSearchResults((prevResults) => {
+      if (!results || results.error) {
+        return [];
+      }
+      return results.map((result, index) => {
+        const existingBook = books.find((book) => book.id === result.id);
+        return { ...result, shelf: existingBook ? existingBook.shelf : 'none' };
+      });
     });
   };
+
+  /**
+   * Syncs the search results with the books collection when the books prop changes.
+   * This ensures that shelf changes made in the BookDetails modal are reflected in the search results.
+   */
+  useEffect(() => {
+    mapResultsToBooks(searchResults);
+  }, [books]);
+
+  /**
+   * Handles the shelf change. It updates the shelf of the book in the search
+   * results and calls the onShelfChange callback to update the main collection. 
+   * @param {any} book
+   * @param {any} newShelfId
+   */
+  const handleShelfChange = (book, newShelfId) => {
+    onShelfChange(book, newShelfId);
+    setSearchResults((prevResults) => {
+      return prevResults.map((result) => {
+        return { ...result, shelf: (result.id === book.id) ? newShelfId : result.shelf };
+      });
+    });
+  }
 
   return (
     <div className="search-books">
@@ -95,7 +120,7 @@ const Search = ({ books, onShelfChange, openModal }) => {
         </div>
       </div>
       <div className="search-books-results">
-        <Bookshelf title="Search Results" books={searchResults} onShelfChange={onShelfChange} isSearch={true} openModal={openModal} />
+        <Bookshelf title="Search Results" books={searchResults} onShelfChange={handleShelfChange} isSearch={true} openModal={openModal} />
       </div>
     </div>
   );

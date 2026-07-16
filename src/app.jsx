@@ -26,49 +26,48 @@ const bookshelves = [
  * Main application component for managing book shelves and book details. 
  * @returns {JSX.Element} The rendered application component.
  */
-function App() {  
+function App() {
   useEffect(() => {
     BooksAPI.getAll().then((books) => {
       setBooks(books);
     });
-  }, []); 
+  }, []);
 
   const [books, setBooks] = useState([]);
-  const [selectedBook, setSelectedBook] = useState(null);
+  const [selectedBookId, setSelectedBookId] = useState(null);
 
-  const openModal = (book) => {
-    setSelectedBook(book);
+  const openModal = (bookId) => {
+    setSelectedBookId(bookId);
   }
 
   const closeModal = () => {
-    setSelectedBook(null);
+    setSelectedBookId(null);
   };
 
   /**
-   * Handles the change of a book's shelf.  If the book is not already in the collection, it will be added to the specified shelf.
+   * Handles the change of a book's shelf.  If the book is not already in the collection,
+   * it will be added to the specified shelf.
    * @param {any} book - The book object whose shelf is being changed.  
-   * @param {any} newShelfId - The new shelf ID to which the book is being moved. If null, the book will be removed from the collection.
+   * @param {any} newShelfId - The new shelf ID. If null, the book will be removed from the collection.
    */
   const onShelfChange = (book, newShelfId) => {
     BooksAPI.update(book, newShelfId).then(() => {
       setBooks((prevBooks) => {
-        const existingBook = prevBooks.find((x) => x.id === book.id);
-        if (!existingBook) {
-          book.shelf = newShelfId;
-          prevBooks.push(book);
-        } else {
-          existingBook.shelf = newShelfId;
-        }
-        return [...prevBooks];
+        const exists = prevBooks.some((x) => x.id === book.id);
+        return exists
+          ? prevBooks.map((existingBook) => (existingBook.id === book.id)
+            ? { ...existingBook, shelf: newShelfId }  // Update the shelf of the existing book
+            : existingBook) // Keep other books unchanged
+          : [...prevBooks, { ...book, shelf: newShelfId }]; // Add the new book to the collection with the specified shelf
       });
     });
   };
 
   return (
     <div className="app">
-      {selectedBook &&
-        <Modal isOpen={!!selectedBook} onClose={closeModal}>
-          <BookDetails book={selectedBook} onClose={closeModal} onShelfChange={onShelfChange} />
+      {selectedBookId &&
+        <Modal isOpen={!!selectedBookId} onClose={closeModal}>
+          <BookDetails bookId={selectedBookId} onClose={closeModal} onShelfChange={onShelfChange} />
         </Modal>
       }
       <Routes>
