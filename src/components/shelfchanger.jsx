@@ -17,13 +17,13 @@ const ShelfChanger = ({ book, onShelfChange }) => {
   return (
     <div className="book-shelf-changer">
       <select name={book.id} key={book.id} value={book.shelf} onChange={handleShelfChange}>
-        <option value="none" disabled>
+        <option value="null" disabled>
           Move to...
         </option>
         <option value="currentlyReading">Currently Reading</option>
         <option value="wantToRead">Want to Read</option>
         <option value="read">Read</option>
-        <option value="null">None</option>
+        <option value="none">None</option>
       </select>
     </div>
   );
